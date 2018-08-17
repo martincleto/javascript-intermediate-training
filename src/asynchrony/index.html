@@ -1,13 +1,43 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Asynchrony</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      padding: 1rem;
+    }
+
+    @media (min-width: 900px) {
+      main {
+        width: 70%;
+        margin: 0 auto;
+      }
+    }
+
+    p, ul {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    li {
+      line-height: 1.2rem;
+    }
+  </style>
 </head>
 <body>
-  <p>Asynchrony</p>
+  <main>
+    <p id="message">Loading locations...</p>
+    <ul>
+    </ul>
+  </main>
+
   <script src="asynchrony.bundle.js"></script>
 </body>
 </html>

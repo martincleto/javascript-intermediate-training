@@ -1,19 +1,94 @@
-const req = new XMLHttpRequest()
-const url = 'https://www.metaweather.com/api/location/search/?query=san'
-
-req.open('GET', url, true)
-req.onreadystatechange = function () {
-  if (req.readyState === 4) {
-    if (req.status === 200) {
-      console.log(req.responseText)
-    } else {
-      console.log('Error loading data')
-    }
-  }
+// DOM Nodes
+const domNodes = {
+  messageContainer: null,
+  locationList: null
 }
-req.send(null)
+
+// As Metawheater API is CORS-enabled any longer, following thight-coupled function mimics reponse
+
+function getData (url) {
+  const localDataPath = 'asynchrony/data'
+  const locationId = /([0-9])+/.exec(url)
+  const delay = Math.random() * 100
+  let mappedUrl = locationId ? `${localDataPath}/${locationId[0]}.json` : `${localDataPath}/locations.json`
+
+  return new Promise((resolve, reject) => {
+    fetch(mappedUrl)
+      .then(response => {
+        setTimeout(() => {
+          return resolve(response.json())
+        }, delay)
+      })
+      .catch(err => reject(err))
+  })
+}
+
+function getLocations () {
+  const queryUrl = 'https://www.metaweather.com/api/location/search/?query=san'
+
+  return getData(queryUrl)
+}
+
+function printLocations (locations) {
+  const locationsPromises = []
+
+  locations.forEach(location => {
+    const locationHumidityPromise = getLocationHumidity(location.woeid)
+    locationHumidityPromise.then(humidity => {
+      const textContent = `${location.title} - humidity: ${humidity}%`
+
+      addListItem.call(document.createElement('li'), textContent)
+      console.log(textContent)
+    })
+    locationsPromises.push(locationHumidityPromise)
+  })
+
+  return Promise.all(locationsPromises)
+}
+
+function getLocationHumidity (woeid) {
+  const locationUrl = `https://www.metaweather.com/api/location/${woeid}/`
+
+  return new Promise((resolve, reject) => {
+    getData(locationUrl)
+      .then(location => {
+        const humidity = location.consolidated_weather[0].humidity
+        resolve(humidity)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+function printAverageHumidity (values) {
+  const accumulate = values.reduce((a, b) => a + b)
+  const averageValue = (accumulate / values.length).toFixed(1)
+  const message = `Average humidity is ${averageValue}%`
+
+  domNodes.messageContainer.textContent = message
+  console.log(`\n${message}`)
+}
+
+function setDomNodes () {
+  domNodes.locationList = document.querySelector('main > ul')
+  domNodes.messageContainer = document.querySelector('#message')
+}
+
+function addListItem (content) {
+  this.textContent = content
+  domNodes.locationList.append(this)
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setDomNodes()
+  getLocations()
+    .then(locations => printLocations(locations))
+    .then(humidityValues => printAverageHumidity(humidityValues))
+})
+
+// Approach using JSONP to workaround Metawheater CORS issue, no success
 /*
-// Using JSONP
 function requestJSONP(url) {
   // create script with passed in URL
   var script = document.createElement('script');
@@ -34,7 +109,6 @@ function processWeather(data) {
   console.log(data);
 }
 
-// get the weather data for Aldeburgh, GB via JSONP
 var url = 'https://www.metaweather.com/api/location/search/?query=san&format=json&callback=processWeather';
 
 requestJSONP(url);
