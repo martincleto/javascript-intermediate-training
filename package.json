@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "javascript intermediate javascript training",
   "repository": "",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
     "test": "echo \"Error: no test specified\" && exit 1"
