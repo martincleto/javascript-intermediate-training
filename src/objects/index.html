@@ -6,12 +6,58 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Objects</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      padding: 1rem;
+    }
+
+    p, ul {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      display: grid;
+      grid-auto-rows: 220px;
+      list-style-type: none;
+    }
+
+    li {
+      position: relative;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    li p {
+      display: block;
+      color: #fff;
+      background-color:rgba(0, 0, 0, 0.5);
+      padding: .3rem;
+    }
+
+    @media (min-width: 600px) {
+      ul {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 180px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      main {
+        width: 70%;
+        margin: 0 auto;
+      }
+    }
+
+  </style>
 </head>
 <body>
   <h1>Dog Breeds</h1>
   <main>
+    <p id="message">Loading dog breeds...</p>
     <ul>
-      <li>Loading...</li>
     </ul>
   </main>
   <script src="objects.bundle.js"></script>

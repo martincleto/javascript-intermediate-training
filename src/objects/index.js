@@ -1,108 +1,77 @@
-
-const dogBreedsArray = []
-
-// Dog Breed class
-
-function DogBreed ({breed, variety}) {
-  this.breed = breed
-  this.variety = variety || null
-}
-
-DogBreed.prototype.getPhoto = async function () {
-  const dogBreedPhotoQuery = `https://dog.ceo/api/breed/${this.breed}/images/random`
-  const dogBreedPhotoRes = await getData(dogBreedPhotoQuery)
-  const dogBreedPhotoUrl = JSON.parse(dogBreedPhotoRes).message
-
-  this.photoUrl = dogBreedPhotoUrl
-  return dogBreedPhotoUrl
-}
-
-DogBreed.prototype.save = function () {
-  dogBreedsArray.push(this)
-}
-
-function DogBreedFactory () {}
-
-DogBreedFactory.prototype.create = function (dogBreedInstanceData) {
-  let dogBreedInstance = new DogBreed(dogBreedInstanceData)
-  dogBreedInstance.getPhoto()
-  dogBreedInstance.save()
-
-  return dogBreedInstance
-}
-
-// Data retrieving
-
-function getData (url) {
-  return new Promise((resolve, reject) => {
-    const req = new XMLHttpRequest()
-    req.open('GET', url)
-    req.onreadystatechange = function () {
-      if (req.readyState === 4) {
-        if (req.status === 200) {
-          resolve(req.responseText)
-        } else {
-          reject(Error('Error loading data'))
-        }
-      }
-    }
-    req.send()
-  })
-}
-// Synchronous XMLHttpRequest is deprecated in browser environment
-// see: https://xhr.spec.whatwg.org/#synchronous-flag
-/*
-function getDataSync (url) {
-  const req = new XMLHttpRequest()
-  req.open('GET', url, false)
-  req.onreadystatechange = function () {
-    if (req.readyState === 4) {
-      if (req.status === 200) {
-        return req.responseText
-      } else {
-        console.error('Error loading data')
-      }
-    }
-  }
-  req.send()
-}
-*/
-
-async function getDogBreeds () {
-  const allDogBreedsQuery = 'https://dog.ceo/api/breeds/list/all'
-  const dogBreedsRes = await getData(allDogBreedsQuery)
-  const dogBreedsObj = JSON.parse(dogBreedsRes).message
-  const dogBreedFactory = new DogBreedFactory()
-  const dogBreedInstanceData = {
-    breed: null,
-    variety: null
+(function (document) {
+  const domNodes = {
+    breedList: null,
+    messageContainer: null
   }
 
-  for (const prop in dogBreedsObj) {
-    if (dogBreedsObj.hasOwnProperty(prop)) {
-      // console.log(prop)
-      // console.log(dogBreedsObj[prop].length)
-      const dogBreedVarieties = dogBreedsObj[prop]
+  function Breed (name, varieties) {
+    this.name = name
+    this.varieties = varieties
+  }
 
-      dogBreedInstanceData.breed = prop
+  Breed.prototype.getPhoto = async function () {
+    try {
+      const response = await fetch(`https://dog.ceo/api/breed/${this.name}/images/random`)
+      const data = await response.json()
 
-      if (dogBreedVarieties.length) {
-        for (let i = 0; i < dogBreedVarieties.length; i++) {
-          dogBreedInstanceData.variety = dogBreedVarieties[i]
-          dogBreedFactory.create(dogBreedInstanceData)
-        }
-      } else {
-        dogBreedFactory.create(dogBreedInstanceData)
-      }
+      return data.message
+    } catch (err) {
+      console.log(err)
+      return null
     }
   }
-}
 
-// DOM
+  function createBreed (name, varieties) {
+    return new Breed(name, varieties)
+  }
 
-function printDogBreeds () {
-  console.log(dogBreedsArray)
-}
+  function getBreedsData () {
+    return fetch('https://dog.ceo/api/breeds/list/all')
+      .then(response => response.json())
+      .then(data => {
+        createBreeds(data.message)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
 
-// Init
-getDogBreeds().then(printDogBreeds())
+  function createBreeds (breeds) {
+    Object.keys(breeds).forEach(async key => {
+      const breed = createBreed(key, breeds[key])
+
+      breed.photo = await breed.getPhoto()
+      printBreed(breed)
+    })
+  }
+
+  function printBreed (item) {
+    const listItem = document.createElement('li')
+    const itemName = capitalize(item.name)
+    const itemVarieties = item.varieties.length ? ` (Varieties: ${item.varieties.map(variety => capitalize(variety)).join(', ')})` : ''
+    const listItemContent = `<p>${itemName}${itemVarieties}</p>`
+
+    listItem.style.backgroundImage = `url(${item.photo})`
+    listItem.innerHTML = listItemContent
+    if (domNodes.messageContainer) domNodes.messageContainer.remove()
+    domNodes.breedList.appendChild(listItem)
+  }
+
+  function capitalize (str) {
+    return str.slice(0, 1).toUpperCase() + str.slice(1)
+  }
+
+  function setDomNodes () {
+    domNodes.breedList = document.querySelector('main > ul')
+    domNodes.messageContainer = document.querySelector('#message')
+  }
+
+  function init () {
+    document.addEventListener('DOMContentLoaded', () => {
+      setDomNodes()
+      getBreedsData()
+    })
+  }
+
+  init()
+})(document)
