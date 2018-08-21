@@ -38,7 +38,6 @@
         const textContent = `${location.title} - humidity: ${humidity}%`
 
         addListItem.call(document.createElement('li'), textContent)
-        console.log(textContent)
       })
       locationsPromises.push(locationHumidityPromise)
     })
@@ -67,7 +66,6 @@
     const message = `Average humidity is ${averageValue}%`
 
     domNodes.messageContainer.textContent = message
-    console.log(`\n${message}`)
   }
 
   function setDomNodes () {
@@ -77,7 +75,7 @@
 
   function addListItem (content) {
     this.textContent = content
-    domNodes.locationsList.append(this)
+    domNodes.locationsList.appendChild(this)
   }
 
   function init () {
