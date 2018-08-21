@@ -17,6 +17,10 @@ module.exports = {
     objects: [
       'babel-polyfill',
       path.join(entryPath, 'objects/index.js')
+    ],
+    functional:  [
+      'babel-polyfill',
+      path.join(entryPath, 'functional-programming/index.js')
     ]
   },
   output: {
@@ -29,8 +33,16 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: entryPath
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       }
     ]
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.tsx']
   },
   plugins: [
     new CopyWebpackPlugin([
