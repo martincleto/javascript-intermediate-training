@@ -1,0 +1,84 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Who to follow</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    :root {
+      --avatar-size: 80px;
+    }
+
+    h1 {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 1.5rem 0 0;
+    }
+
+    ul {
+      list-style-type: none;
+      font-size: 1.1rem;
+    }
+
+    li {
+      position: relative;
+      min-height: var(--avatar-size);
+      padding-left: calc(var(--avatar-size) + 10px);
+      margin-bottom: 20px;
+    }
+
+    li a {
+      line-height: var(--avatar-size);
+      vertical-align: middle;
+    }
+
+    li .btn {
+      font-size: .9rem;
+      margin-left: .85rem;
+    }
+
+    li img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width:  var(--avatar-size);
+      height: auto;
+      border-radius: calc( var(--avatar-size) / 2);
+    }
+
+    .btn {
+      line-height: 1.5rem;
+      padding: 0 .5rem;
+    }
+
+  </style>
+</head>
+<body>
+  <article>
+    <header>
+         <h1>Who to follow</h1>
+         <button id="refresh" class="btn">Refresh</a>
+    </header>
+    <ul>
+        <li class="suggestion1">
+            <img />
+            <a href="#" target="_blank">loading...</a>
+            <button id="close1" class="btn">Remove</button>
+        </li>
+        <li class="suggestion2">
+            <img />
+            <a href="#" target="_blank">loading...</a>
+            <button id="close2" class="btn">Remove</button>
+        </li>
+        <li class="suggestion3">
+            <img />
+            <a href="#" target="_blank">loading...</a>
+            <button id="close3" class="btn">Remove</button>
+        </li>
+    </ul>
+  </article>
+
+  <script src="functional.bundle.js"></script>
+</body>
+</html>

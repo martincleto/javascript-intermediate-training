@@ -5,15 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>JS Generic Concepts</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" >
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      font-size: 14px;
-      padding: 1rem;
-    }
-
     main > div {
       display: grid;
       grid-gap: 20px;
@@ -37,31 +30,25 @@
       padding-bottom: 20px;
     }
 
-    .button {
-    	-moz-box-shadow: inset 0px 1px 3px 0px #91b8b3;
-    	-webkit-box-shadow: inset 0px 1px 3px 0px #91b8b3;
-    	box-shadow: inset 0px 1px 3px 0px #91b8b3;
+    .btn {
     	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
     	background: -moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
     	background: -webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
     	background: -ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
     	background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
     	background-color: #768d87;
-    	-moz-border-radius: 5px;
-    	-webkit-border-radius: 5px;
-    	border-radius: 5px;
-    	border: 1px solid #566963;
-    	display: inline-block;
-    	cursor: pointer;
+      -moz-box-shadow: inset 0px 1px 3px 0px #91b8b3;
+      -webkit-box-shadow: inset 0px 1px 3px 0px #91b8b3;
+      box-shadow: inset 0px 1px 3px 0px #91b8b3;
     	color: #fff;
     	font-size: 1.2rem;
-    	font-weight: bold;
+      font-weight: bold;
+      text-shadow: 0px -1px 0px #2b665e;
+      border-color: #566963;
     	padding: 11px 23px;
-      text-align: center;
-    	text-decoration: none;
-    	text-shadow: 0px -1px 0px #2b665e;
+
     }
-    .myButton:hover {
+    .btn:hover {
     	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
     	background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
     	background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
@@ -75,16 +62,16 @@
   <main>
     <p>Click on any button to check Event Delegation</p>
     <div>
-      <button id="btn01" class="button">Button 1</button>
-      <button id="btn02" class="button">Button 2</button>
-      <button id="btn03" class="button">Button 3</button>
-      <button id="btn04" class="button">Button 4</button>
-      <button id="btn05" class="button">Button 5</button>
-      <button id="btn06" class="button">Button 6</button>
-      <button id="btn07" class="button">Button 7</button>
-      <button id="btn08" class="button">Button 8</button>
-      <button id="btn09" class="button">Button 9</button>
-      <a href="https://www.google.es/" id="btn10" role="button" class="button">Button 10</a>
+      <button id="btn01" class="btn">Button 1</button>
+      <button id="btn02" class="btn">Button 2</button>
+      <button id="btn03" class="btn">Button 3</button>
+      <button id="btn04" class="btn">Button 4</button>
+      <button id="btn05" class="btn">Button 5</button>
+      <button id="btn06" class="btn">Button 6</button>
+      <button id="btn07" class="btn">Button 7</button>
+      <button id="btn08" class="btn">Button 8</button>
+      <button id="btn09" class="btn">Button 9</button>
+      <a href="https://www.google.es/" id="btn10" role="button" class="btn">Button 10</a>
     </div>
   </main>
   <script src="concepts.bundle.js"></script>

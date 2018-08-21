@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  padding: 1rem;
+}
+
+a {
+  color: #0366d6;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  main {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
