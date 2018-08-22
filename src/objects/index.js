@@ -28,28 +28,29 @@
   function getBreedsData () {
     return fetch('https://dog.ceo/api/breeds/list/all')
       .then(response => response.json())
-      .then(data => {
-        createBreeds(data.message)
-      })
+      .then(data => data.message)
       .catch(err => {
         console.error(err)
       })
   }
 
   function createBreeds (breeds) {
-    Object.keys(breeds).forEach(async key => {
-      const breed = createBreed(key, breeds[key])
+    Object.keys(breeds)
+      .sort((a, b) => a.localeCompare(b))
+      .forEach(async key => {
+        const breed = createBreed(key, breeds[key])
 
-      breed.photo = await breed.getPhoto()
-      printBreed(breed)
-    })
+        await printBreed(breed)
+      })
   }
 
-  function printBreed (item) {
+  async function printBreed (item) {
     const listItem = document.createElement('li')
     const itemName = capitalize(item.name)
-    const itemVarieties = item.varieties.length ? ` (Varieties: ${item.varieties.map(variety => capitalize(variety)).join(', ')})` : ''
-    const listItemContent = `<p>${itemName}${itemVarieties}</p>`
+    const itemVarieties = item.varieties.length ? ` (${item.varieties.map(variety => capitalize(variety)).join(', ')})` : ''
+    const listItemContent = `<p class="ellipsis">${itemName}${itemVarieties}</p>`
+
+    item.photo = await item.getPhoto()
 
     listItem.style.backgroundImage = `url(${item.photo})`
     listItem.innerHTML = listItemContent
@@ -70,6 +71,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       setDomNodes()
       getBreedsData()
+        .then(createBreeds)
     })
   }
 

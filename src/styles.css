@@ -27,6 +27,16 @@ button:focus {
   cursor: pointer;
 }
 
+@supports (-webkit-line-clamp: 2) {
+  .ellipsis {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+}
+
 @media (min-width: 900px) {
   main {
     width: 70%;
