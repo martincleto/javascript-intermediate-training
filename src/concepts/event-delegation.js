@@ -1,39 +1,45 @@
-
-function addEventListeners (eventsMap) {
-  for (var [element, {eventType, handler, preventDefault}] of eventsMap) {
-    element.addEventListener(eventType, (event) => {
-      handler(event.target)
-      if (preventDefault) {
-        event.preventDefault()
-      }
-    }, false)
+(function (document) {
+  const domNodes = {
+    mainContainer: null,
+    messagePlaceholder: null
   }
-}
 
-function printButtonId (eventTarget) {
-  if (!isButton) return
-
-  const match = eventTarget.id.match(/[0-9]+$/)
-  const buttonNumber = parseInt(match[0])
-
-  if (!isNaN(buttonNumber)) {
-    console.log(`Button #${buttonNumber} clicked`)
+  function addEventListeners (eventsMap) {
+    for (var [element, {eventType, handler, preventDefault}] of eventsMap) {
+      element.addEventListener(eventType, (event) => {
+        handler(event.target)
+        if (preventDefault) {
+          event.preventDefault()
+        }
+      }, false)
+    }
   }
-}
 
-function isButton (element) {
-  return element.tagName === 'BUTTON' || element.getAttribute('role') === 'button'
-}
+  function printMessage (eventTarget) {
+    if (!isButton(eventTarget)) return
 
-document.addEventListener('DOMContentLoaded', () => {
-  const mainContainer = document.querySelector('main')
-  const eventsMap = new Map()
+    const which = eventTarget.textContent || eventTarget.id
 
-  eventsMap.set(mainContainer, {
-    eventType: 'click',
-    handler: printButtonId,
-    preventDefault: true
+    // eslint-disable-next-line no-extra-boolean-cast
+    domNodes.messagePlaceholder.textContent = (!!which) ? `${which} was clicked` : ''
+  }
+
+  function isButton (element) {
+    return element.tagName === 'BUTTON' || element.getAttribute('role') === 'button'
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    domNodes.mainContainer = document.querySelector('main')
+    domNodes.messagePlaceholder = document.querySelector('#message')
+
+    const eventsMap = new Map()
+
+    eventsMap.set(domNodes.mainContainer, {
+      eventType: 'click',
+      handler: printMessage,
+      preventDefault: true
+    })
+
+    addEventListeners(eventsMap)
   })
-
-  addEventListeners(eventsMap)
-})
+})(document)

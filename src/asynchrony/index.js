@@ -1,4 +1,4 @@
-(function () {
+(function (document) {
   // DOM Nodes
   const domNodes = {
     messageContainer: null,
